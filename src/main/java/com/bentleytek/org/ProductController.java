@@ -62,7 +62,7 @@ public class ProductController {
 		}
 		if(!productService.findByName(product.getName()).isEmpty()) {
 			 model.addAttribute("product", product);
-			 bindingResult.rejectValue("name", "error.product", "Така номенклатура товару вже існує");
+			 bindingResult.rejectValue("name", "error.product", "Choose another product");
 			 model.addAttribute(bindingResult.getModel());
 			 return "product-add";
 		}
@@ -92,7 +92,7 @@ public class ProductController {
 		}
 		if(!productService.findByName(product.getName()).isEmpty()) {
 			 model.addAttribute("product", product);
-			 bindingResult.rejectValue("name", "error.product", "Така номенклатура товару вже існує");
+			 bindingResult.rejectValue("name", "error.product", "Choose another product");
 			 model.addAttribute(bindingResult.getModel());
 			 return "product-edit";
 		}
