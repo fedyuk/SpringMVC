@@ -1,0 +1,46 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!-- enable use-expressions --> 
+	<http auto-config="true" use-expressions="true" access-denied-page="/404">
+	    <intercept-url pattern="/account/all*" access="hasRole('admin')" />
+	    <intercept-url pattern="/account/add*" access="hasRole('admin')" />
+	    <intercept-url pattern="/account/delete*" access="hasRole('admin')" />
+	    <intercept-url pattern="/account/ban*" access="hasRole('admin')" />
+	    <intercept-url pattern="/account/getAccountDetails*" access="hasRole('user')" />
+	    <intercept-url pattern="/product/**" access="hasRole('admin')" />
+	    <intercept-url pattern="/photo/delete/photo*" access="hasRole('admin')" />
+	    <intercept-url pattern="/photo/add*" access="hasRole('admin')" />
+	    <intercept-url pattern="/sale/**" access="hasRole('admin')" />
+	    <intercept-url pattern="/products*" access="hasRole('user')" />
+	    <intercept-url pattern="/add/cart*" access="hasRole('user')" />
+	    <intercept-url pattern="/buy.do*" access="hasRole('user')" />
+	    <intercept-url pattern="/delete*" access="hasRole('user')" />
+	    <intercept-url pattern="/login**" access="permitAll" />
+	    <intercept-url pattern="/registration**" access="permitAll" />
+	    <intercept-url pattern="/photo/getPhoto*" access="permitAll" />
+		<form-login 
+		    login-page="/login" 
+		    default-target-url="/authority" 
+			authentication-failure-url="/login?error" 
+			username-parameter="username"
+			password-parameter="password" />
+		<logout logout-success-url="/login?logout"  />
+		<!-- enable csrf protection -->
+	</http>
+	
+	<authentication-manager>
+	  <authentication-provider>
+		<jdbc-user-service data-source-ref="dataSource"
+		  users-by-username-query=
+		    "select email,password,isActive from account where email=?"
+		  authorities-by-username-query=
+		    "select a.email, r.name from Account a inner join Role r on r.roleId=a.roleId where a.email=?" />
+	  </authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

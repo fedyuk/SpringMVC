@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa">
+	<!-- Database -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	            <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+	            <property name="url" value="jdbc:mysql://localhost:3306/test"></property>
+	            <property name="username" value="serhiy"></property>
+	            <property name="password" value=""></property>
+	</bean>
+ 
+	<!-- EntityManagerFactory  -->
+	 <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+                <property name="persistenceUnitName" value="Spring" />
+                <property name="dataSource" ref="dataSource"></property>
+     </bean>
+     
+     <!-- Transaction Manager   -->
+     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+                <property name="entityManagerFactory" ref="entityManagerFactory" />
+     </bean>
+     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"></bean>
+     
+     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"></bean>
+     
+     <jpa:repositories base-package="com.bentleytek.org.repositories"></jpa:repositories>
+	
+
+</beans>
